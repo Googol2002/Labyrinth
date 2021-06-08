@@ -1,2 +1,2 @@
 # Labyrinth
-这是一个Python课程迷宫实验
+这是一个Python教学课程迷宫实验
