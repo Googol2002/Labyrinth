@@ -49,6 +49,7 @@ class LabyrinthGame(LabyrinthGameCore):
         self.position = self.start
 
         self.mist = np.ones((width, height)) if has_mist else None
+        self.__dispell(self.end[0], self.end[1], 2)
 
     def display(self):
         raise NotImplemented()
@@ -107,14 +108,17 @@ class LabyrinthGame(LabyrinthGameCore):
 
     R = 4
 
+    def __dispell(self, x, y, R):
+        if self.mist is not None:
+            self.mist[(x-R if x-R >= 0 else 0): (x+R+1 if x+R+1 <= self.width else x+R+1),
+                (y-R if y-R >= 0 else 0): (y+R+1 if y+R+1 <= self.width else y+R+1)] = 0
+
     def notify_update(self):
         R = LabyrinthGame.R
         x = self.position[0]
         y = self.position[1]
 
-        if self.mist is not None:
-            self.mist[(x-R if x-R >= 0 else 0): (x+R+1 if x+R+1 <= self.width else x+R+1),
-                (y-R if y-R >= 0 else 0): (y+R+1 if y+R+1 <= self.width else y+R+1)] = 0
+        self.__dispell(x, y, R)
 
         for ob in self.update_observers:
             ob()

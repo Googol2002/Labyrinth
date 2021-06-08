@@ -4,5 +4,5 @@ from robot import Robot
 from threading import Thread
 
 if __name__ == "__main__":
-    labyrinth = LabyrinthGameGui(51, 25)
+    labyrinth = LabyrinthGameGui()
     labyrinth.display()

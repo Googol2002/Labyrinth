@@ -2,7 +2,8 @@ from game import LabyrinthGame
 from robot import Robot
 import math
 from random import random
-
+from matplotlib import pyplot
+import numpy as np
 
 def robot_cost_gene(labyrinths):
     def robot_cost(parameter):
@@ -41,7 +42,7 @@ def annealing(a, b, func):
     f_old = func(p_old)
     f_new = f_old
 
-    k_max = 100
+    k_max = 500
     counter = 0
 
     f_min_history = f_old
@@ -74,10 +75,28 @@ def annealing(a, b, func):
     return p_min_history
 
 
+def draw(a, b, func, n):
+    x = np.linspace(a, b, 200)
+    y_list = []
+
+    for i in x:
+        y_list.append(func(i) / n)
+        print(i)
+    y = np.asarray(y_list)
+
+    pyplot.xlabel("Alpha")
+    pyplot.ylabel("Cost")
+    pyplot.xticks(np.arange(a, b + 1, 1))
+    pyplot.plot(x, y)
+    pyplot.savefig(r"D:\Workspace\Final Project\result.png", dpi=600)
+    pyplot.show()
+
+
+
 if __name__ == "__main__":
     labs = [LabyrinthGame(51, 25, LabyrinthGame.prim) for _ in range(100)]
     f = robot_cost_gene(labs)
 
-    p = annealing(0, 2, f)
-
-    print(p)
+    #p = annealing(0, 8, f)
+    #print(p)
+    draw(0, 10, f, 100)
